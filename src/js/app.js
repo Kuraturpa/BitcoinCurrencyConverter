@@ -38,9 +38,11 @@ angular.module('app', []).controller('uiController', function($scope, apiService
 	};
 
 	$scope.getCurrencyInBitcoins = function(amount) {
-		if($scope.bitcoinAmount < 0)
-			return 0;
-		return amount * $scope.bitcoinAmount;
+		$scope.bitcoinAmount = parseFloat($scope.bitcoinAmount);
+		if($scope.bitcoinAmount >= 0 && typeof($scope.bitcoinAmount) == "number" && !isNaN($scope.bitcoinAmount) && $scope.bitcoinAmount != "")
+			return amount * $scope.bitcoinAmount;
+		return 0;
+
 	};
 
 });
