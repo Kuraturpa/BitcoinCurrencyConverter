@@ -10,7 +10,7 @@
 	<div ng-controller="uiController" ng-init="init()">
 		<input type="text" name="bitoinamount" ng-model="bitcoinAmount">
 		<ul ng-repeat="(key, value) in rates">
-			<li>{{key}} {{bitcoinAmount * value.sell}}</li>
+			<li>{{key}} {{getCurrencyInBitcoins(value.sell)}}</li>
 		</ul>
 	</div>
 	

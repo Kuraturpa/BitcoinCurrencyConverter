@@ -37,4 +37,10 @@ angular.module('app', []).controller('uiController', function($scope, apiService
 		});
 	};
 
+	$scope.getCurrencyInBitcoins = function(amount) {
+		if($scope.bitcoinAmount < 0)
+			return 0;
+		return amount * $scope.bitcoinAmount;
+	};
+
 });
