@@ -8,10 +8,11 @@
 </head>
 <body ng-app="bitcoincalc">
 	<div ng-controller="uiController" ng-init="init()">
-		<input type="text" name="bitoinamount" ng-model="bitcoinAmount">
-		<ul ng-repeat="(key, value) in rates">
-			<li>{{key}} {{getCurrencyInBitcoins(value.sell)}}</li>
+		Bitcoin <input type="text" name="bitoinamount" ng-model="bitcoinAmount" ng-change="btcAmountChanged()"> {{cur.name}} <input type="text" name="curamount" ng-model="curAmount" ng-change="curAmountChanged()">
+		<ul>
+			<p ng-repeat="rate in rates"><button ng-click="setCur(this)">{{rate.name}}</button> {{convertToCurrency(rate.last)}} {{rate.symbol}}</p>
 		</ul>
+		</div>
 	</div>
 	
 
