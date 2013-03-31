@@ -1,14 +1,21 @@
 angular.module('bitcoincalc', ['calc', 'app']);
 
-angular.module('calc', []).factory('apiService', function($http) {
+angular.module('calc', []).factory('apiService', function($rootScope, $http) {
 	var api = {};
-	//api.url = "http://blockchain.info/ticker?format=json&callback=JSON_CALLBACK";
-	//api.url = "http://bitcoincharts.com/t/markets.json";
 	api.url = "ticker.json";
-	api.getRates = function(callback, error) {
-		console.log('get rates');
-		$http.get(api.url).success(callback).error(error);
+	api.refresh = 900000; // 15mins
+
+	api.refreshRates = function() {
+		$http.get(api.url).success(function(rates) {
+			$rootScope.$broadcast('api.rates', rates);
+		});
 	};
+
+	setInterval(function() {
+		api.refreshRates();
+	}, api.refresh);
+
+	api.refreshRates();
 
 	return api;
 });
@@ -18,30 +25,19 @@ angular.module('app', []).controller('uiController', function($scope, apiService
 	$scope.bitcoinAmount = 1;
 	$scope.cur = null;
 	$scope.curAmount = 0;
-	$scope.init = function(param) {
-		console.log('app init');
-		$scope.refreshRates();
-	};
 
-	$scope.refreshRates = function() {
-		console.log('refresh rates');
-		apiService.getRates(function(rates) {
-			for(var i=0;i<Object.keys(rates).length;i++) {
-				var rate = {};
-				rate.name = Object.keys(rates)[i];
-				rate.last = rates[Object.keys(rates)[i]].last;
-				rate.symbol = rates[Object.keys(rates)[i]].symbol;
-				$scope.rates.push(rate);
-			}
-			if($scope.cur == null)
-				$scope.cur = $scope.rates[0];
-			$scope.btcAmountChanged();
-		},
-		function(data){
-			console.log("error");
-			console.log(data);
-		});
-	};
+	$scope.$on('api.rates', function(e, rates) {
+		for(var i=0;i<Object.keys(rates).length;i++) {
+			var rate = {};
+			rate.name = Object.keys(rates)[i];
+			rate.last = rates[Object.keys(rates)[i]].last;
+			rate.symbol = rates[Object.keys(rates)[i]].symbol;
+			$scope.rates.push(rate);
+		}
+		if($scope.cur == null)
+			$scope.cur = $scope.rates[0];
+		$scope.btcAmountChanged();
+	});
 
 	$scope.convertToCurrency = function(amount) {
 		$scope.bitcoinAmount = parseFloat($scope.bitcoinAmount);
