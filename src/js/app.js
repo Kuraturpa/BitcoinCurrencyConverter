@@ -35,6 +35,7 @@ angular.module('app', []).controller('uiController', function($scope, apiService
 			}
 			if($scope.cur == null)
 				$scope.cur = $scope.rates[0];
+			$scope.btcAmountChanged();
 		},
 		function(data){
 			console.log("error");
@@ -47,15 +48,18 @@ angular.module('app', []).controller('uiController', function($scope, apiService
 		if($scope.bitcoinAmount >= 0 && typeof($scope.bitcoinAmount) == "number" && !isNaN($scope.bitcoinAmount) && $scope.bitcoinAmount != "")
 			return amount * $scope.bitcoinAmount;
 		return 0;
-
 	};
 
 	$scope.convertToBitcoin = function(amount) {
-
+		$scope.curAmount = parseFloat($scope.curAmount);
+		if($scope.curAmount >= 0 && typeof($scope.curAmount) == "number" && !isNaN($scope.curAmount) && $scope.bitcoinAmount != "")
+			return amount / $scope.curAmount;
+		return 0;
 	};
 
 	$scope.setCur = function(cur) {
 		$scope.cur = cur.rate;
+		$scope.curAmountChanged();
 	};
 
 	$scope.btcAmountChanged = function() {
@@ -63,7 +67,7 @@ angular.module('app', []).controller('uiController', function($scope, apiService
 	};
 
 	$scope.curAmountChanged = function() {
-		$scope.bitcoinAmount = $scope.curAmount / $scope.cur.last;
+		$scope.bitcoinAmount = $scope.convertToBitcoin($scope.cur.last);
 	};
 
 });
