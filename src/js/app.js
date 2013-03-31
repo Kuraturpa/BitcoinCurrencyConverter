@@ -17,7 +17,7 @@ angular.module('calc', []).factory('apiService', function($http) {
 angular.module('app', []).controller('uiController', function($scope, apiService) {
 	$scope.rates = {};
 	$scope.currencies = [];
-	$scope.bitcoinAmount = 0;
+	$scope.bitcoinAmount = 1;
 	$scope.init = function(param) {
 		console.log('app init');
 		$scope.refreshRates();
