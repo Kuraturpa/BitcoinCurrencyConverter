@@ -3,7 +3,7 @@ angular.module('bitcoincalc', ['calc', 'app']);
 angular.module('calc', []).factory('apiService', function($rootScope, $http) {
 	var api = {};
 	api.url = "ticker.json";
-	api.refresh = 900000; // 15mins
+	api.refresh = 900000;
 
 	api.refreshRates = function() {
 		$http.get(api.url).success(function(rates) {
@@ -40,16 +40,16 @@ angular.module('app', []).controller('uiController', function($scope, apiService
 	});
 
 	$scope.convertToCurrency = function(amount) {
-		$scope.bitcoinAmount = parseFloat($scope.bitcoinAmount);
-		if($scope.bitcoinAmount >= 0 && typeof($scope.bitcoinAmount) == "number" && !isNaN($scope.bitcoinAmount) && $scope.bitcoinAmount != "")
-			return amount * $scope.bitcoinAmount;
+		var btc = parseFloat($scope.bitcoinAmount);
+		if(typeof(btc) == "number" && !isNaN(btc) && btc != "")
+			return amount * btc;
 		return 0;
 	};
 
 	$scope.convertToBitcoin = function(amount) {
-		$scope.curAmount = parseFloat($scope.curAmount);
-		if($scope.curAmount >= 0 && typeof($scope.curAmount) == "number" && !isNaN($scope.curAmount) && $scope.bitcoinAmount != "")
-			return amount / $scope.curAmount;
+		var cur = parseFloat($scope.curAmount);
+		if(typeof(cur) == "number" && !isNaN(cur) && cur != "")
+			return cur / amount;
 		return 0;
 	};
 
