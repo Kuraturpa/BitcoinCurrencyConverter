@@ -1,6 +1,9 @@
+
+'use strict';
+
 angular.module('bitcoincalc', ['calc', 'app']);
 
-angular.module('calc', []).factory('apiService', function($rootScope, $http) {
+angular.module('calc', []).factory('apiService', ['$rootScope', '$http', function($rootScope, $http) {
 	var api = {};
 	api.url = "ticker.json";
 	api.refresh = 900000;
@@ -18,9 +21,9 @@ angular.module('calc', []).factory('apiService', function($rootScope, $http) {
 	api.refreshRates();
 
 	return api;
-});
+}]);
 
-angular.module('app', []).controller('uiController', function($scope, apiService) {
+angular.module('app', []).controller('uiController', ['$scope', 'apiService', function($scope, apiService) {
 	$scope.rates = [];
 	$scope.bitcoinAmount = 1;
 	$scope.cur = null;
@@ -66,4 +69,4 @@ angular.module('app', []).controller('uiController', function($scope, apiService
 		$scope.bitcoinAmount = $scope.convertToBitcoin($scope.cur.last);
 	};
 
-});
+}]);
