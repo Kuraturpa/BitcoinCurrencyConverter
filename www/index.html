@@ -7,7 +7,7 @@
 	<script type="text/javascript" src="js/app.js"></script>
 </head>
 <body ng-app="bitcoincalc">
-	<div ng-controller="uiController" ng-init="init()">
+	<div ng-controller="uiController">
 		Bitcoin <input type="text" name="bitoinamount" ng-model="bitcoinAmount" ng-change="btcAmountChanged()"> {{cur.name}} <input type="text" name="curamount" ng-model="curAmount" ng-change="curAmountChanged()">
 		<ul>
 			<p ng-repeat="rate in rates"><button ng-click="setCur(this)">{{rate.name}}</button> {{convertToCurrency(rate.last)}} {{rate.symbol}}</p>
