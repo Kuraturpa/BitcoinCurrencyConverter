@@ -45,7 +45,7 @@ angular.module('app', []).controller('uiController', ['$scope', 'apiService', fu
 	$scope.convertToCurrency = function(amount) {
 		var btc = parseFloat($scope.bitcoinAmount);
 		if(typeof(btc) == "number" && !isNaN(btc) && btc != "")
-			return amount * btc;
+			return (amount * btc).toFixed(3);
 		return 0;
 	};
 
