@@ -30,6 +30,7 @@ angular.module('app', []).controller('uiController', ['$scope', 'apiService', fu
 	$scope.curAmount = 0;
 
 	$scope.$on('api.rates', function(e, rates) {
+		$scope.rates.length = 0;
 		for(var i=0;i<Object.keys(rates).length;i++) {
 			var rate = {};
 			rate.name = Object.keys(rates)[i];
